@@ -394,7 +394,11 @@
         this.handle = this.rootGroup.options.handle || this.rootGroup.options.itemSelector;
         var itemPath = this.rootGroup.options.itemPath;
         this.target = itemPath ? this.el.find(itemPath) : this.el;
-        this.target.on(eventNames.start, this.handle, $.proxy(this.dragInit, this));        
+        this.target.on(eventNames.start, this.handle, $.proxy(this.dragInit, this));
+        var self = this;
+        this.target.one('destroyed', function(){
+            self._destroy();
+        });
         if (this.options.drop) this.group.containers.push(this);
     }
     Container.prototype = {
